@@ -15,8 +15,6 @@
 Thumbs.db
 
 # Maven wrapper
-**/mvnw
-**/mvnw.cmd
 **/.mvn/
 
 # Docker
