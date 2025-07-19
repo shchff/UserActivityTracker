@@ -11,6 +11,7 @@ services:
       CASSANDRA_CLUSTER_NAME: dev-cluster
     volumes:
       - cassandra_data:/var/lib/cassandra
+      - ./init:/init
     healthcheck:
       test: ["CMD", "cqlsh", "-e", "describe keyspaces"]
       interval: 30s
