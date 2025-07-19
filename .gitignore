@@ -1,0 +1,46 @@
+# Java/Maven
+**/target/
+**/*.log
+
+# IDE
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+*.class
+
+# OS-specific
+.DS_Store
+Thumbs.db
+
+# Maven wrapper
+**/mvnw
+**/mvnw.cmd
+**/.mvn/
+
+# Docker
+*.env
+docker-compose.override.yml
+docker/*.env
+
+# Cassandra / Kafka volumes (если случайно в корне создашь)
+cassandra_data/
+kafka_data/
+
+# Logs
+logs/
+**/logs/
+*.log
+*.out
+
+# IntelliJ
+out/
+
+# Eclipse (если кто-то будет использовать)
+.settings/
+.project
+.classpath
+
+# Optional: exclude built JARs
+**/*.jar
