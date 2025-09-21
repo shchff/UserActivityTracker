@@ -8,12 +8,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
-import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Service;
 
-import java.time.Instant;
-import java.util.UUID;
-import java.util.concurrent.CompletableFuture;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -24,7 +21,7 @@ public class UserEventServiceImpl implements UserEventService
 
     private final KafkaTemplate<String, UserEvent> kafkaTemplate;
     
-    private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserEventServiceImpl.class);
 
     private final UserEventMapper userEventMapper;
 
@@ -33,22 +30,30 @@ public class UserEventServiceImpl implements UserEventService
     {
         UserEvent event = userEventMapper.toEntity(eventDto);
 
-        CompletableFuture<SendResult<String, UserEvent>> future =
-                kafkaTemplate.send(topic, event.getUserId(), event);
+        String key = Objects.requireNonNullElse(event.getUserId(), "unknown-user");
 
-        future.whenComplete((result, exception) ->
-        {
-            if (exception != null)
-            {
-                LOGGER.error("Failed to send message", exception);
-            }
-            else
-            {
-                LOGGER.info("Message is sent successfully to topic={}, partition={}, offset={}",
-                        result.getRecordMetadata().topic(),
-                        result.getRecordMetadata().partition(),
-                        result.getRecordMetadata().offset());
-            }
-        });
+        kafkaTemplate.send(topic, key, event)
+                .whenComplete((result, exception) -> {
+                    if (exception != null)
+                    {
+                        LOGGER.error("Failed to send message: id={}, userId={}",
+                                event.getId(), event.getUserId(), exception);
+                    }
+                    else
+                    {
+                        LOGGER.info("Message sent: id={}, userId={}, topic={}, partition={}, offset={}",
+                                event.getId(),
+                                event.getUserId(),
+                                result.getRecordMetadata().topic(),
+                                result.getRecordMetadata().partition(),
+                                result.getRecordMetadata().offset());
+                    }
+                })
+                .exceptionallyCompose(e -> {
+                    LOGGER.warn("Retrying send for eventId={} due to error={}",
+                            event.getId(), e.getMessage());
+
+                    return kafkaTemplate.send(topic, key, event);
+                });
     }
 }

@@ -47,9 +47,9 @@ public class UserEventControllerTest
         mockMvc.perform(post("/events")
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(objectMapper.writeValueAsString(eventDto)))
-                .andExpect(status().isCreated())
-                .andExpect(content().string("Data saved"))
-                .andExpect(header().string("Content-Type", "text/plain;charset=UTF-8"));
+                .andExpect(status().isAccepted())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.status").value("ACCEPTED"));
 
         verify(userEventService).sendEvent(eventDto);
         verifyNoMoreInteractions(userEventService);
@@ -70,7 +70,10 @@ public class UserEventControllerTest
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(invalidJson))
                 .andExpect(status().isBadRequest())
-                .andExpect(content().string("Validation failed: [userId: userId must not be blank]"));
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.error").value("Validation failed"))
+                .andExpect(jsonPath("$.details[0].field").value("userId"))
+                .andExpect(jsonPath("$.details[0].message").exists());
 
         verifyNoInteractions(userEventService);
     }
@@ -91,7 +94,9 @@ public class UserEventControllerTest
         mockMvc.perform(post("/events")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(eventDto)))
-                .andExpect(status().isInternalServerError());
+                .andExpect(status().isInternalServerError())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.error").value("Internal server error"));
 
         verify(userEventService).sendEvent(eventDto);
     }
@@ -110,7 +115,10 @@ public class UserEventControllerTest
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(invalidDto)))
                 .andExpect(status().isBadRequest())
-                .andExpect(content().string("Validation failed: [eventType: eventType must not be blank]"));
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.error").value("Validation failed"))
+                .andExpect(jsonPath("$.details[0].field").value("eventType"))
+                .andExpect(jsonPath("$.details[0].message").exists());
 
         verifyNoInteractions(userEventService);
     }
