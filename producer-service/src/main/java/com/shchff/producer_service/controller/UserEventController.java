@@ -1,8 +1,8 @@
 package com.shchff.producer_service.controller;
 
 import com.shchff.producer_service.dto.UserEventDto;
-import com.shchff.producer_service.model.UserEvent;
 import com.shchff.producer_service.service.UserEventService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +19,7 @@ public class UserEventController
     private final UserEventService userEventService;
 
     @PostMapping
-    public ResponseEntity<String> postEvent(@RequestBody UserEventDto eventDto)
+    public ResponseEntity<String> postEvent(@Valid @RequestBody UserEventDto eventDto)
     {
         userEventService.sendEvent(eventDto);
         return new ResponseEntity<>("Данные сохранены", HttpStatus.CREATED);
