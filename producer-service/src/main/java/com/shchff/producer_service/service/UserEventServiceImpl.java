@@ -43,11 +43,14 @@ public class UserEventServiceImpl implements UserEventService
         {
             if (exception != null)
             {
-                LOGGER.error("Failed to send message: {}", exception.getMessage());
+                LOGGER.error("Failed to send message", exception);
             }
             else
             {
-                LOGGER.info("Message is sent successfully!");
+                LOGGER.info("Message is sent successfully to topic={}, partition={}, offset={}",
+                        result.getRecordMetadata().topic(),
+                        result.getRecordMetadata().partition(),
+                        result.getRecordMetadata().offset());
             }
         });
     }
