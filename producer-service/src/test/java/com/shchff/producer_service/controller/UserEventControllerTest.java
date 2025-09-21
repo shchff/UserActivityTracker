@@ -48,7 +48,7 @@ public class UserEventControllerTest
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(objectMapper.writeValueAsString(eventDto)))
                 .andExpect(status().isCreated())
-                .andExpect(content().string("Данные сохранены"))
+                .andExpect(content().string("Data saved"))
                 .andExpect(header().string("Content-Type", "text/plain;charset=UTF-8"));
 
         verify(userEventService).sendEvent(eventDto);

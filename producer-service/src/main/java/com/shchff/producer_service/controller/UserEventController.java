@@ -22,6 +22,6 @@ public class UserEventController
     public ResponseEntity<String> postEvent(@Valid @RequestBody UserEventDto eventDto)
     {
         userEventService.sendEvent(eventDto);
-        return new ResponseEntity<>("Данные сохранены", HttpStatus.CREATED);
+        return new ResponseEntity<>("Data saved", HttpStatus.CREATED);
     }
 }
