@@ -1,6 +1,5 @@
 package com.shchff.producer_service.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.shchff.producer_service.dto.UserEventDto;
 import com.shchff.producer_service.service.UserEventService;
@@ -21,7 +20,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(UserEventController.class)
 @TestPropertySource(properties = {
         "app.topic.name=test-topic",
-        "logging.level.com.shchff.producerservice=DEBUG"
+        "logging.level.com.shchff.producer_service=DEBUG"
 })
 public class UserEventControllerTest
 {
@@ -44,6 +43,7 @@ public class UserEventControllerTest
                 Map.of("sessionId", "abc123", "ip", "192.168.1.1")
         );
 
+        // When & Then
         mockMvc.perform(post("/events")
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(objectMapper.writeValueAsString(eventDto)))

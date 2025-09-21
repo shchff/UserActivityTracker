@@ -1,6 +1,7 @@
 package com.shchff.producer_service.service;
 
 import com.shchff.producer_service.dto.UserEventDto;
+import com.shchff.producer_service.mapper.UserEventMapper;
 import com.shchff.producer_service.model.UserEvent;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -25,16 +26,12 @@ public class UserEventServiceImpl implements UserEventService
     
     private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
 
+    private final UserEventMapper userEventMapper;
+
     @Override
     public void sendEvent(UserEventDto eventDto)
     {
-        UserEvent event = new UserEvent(
-                UUID.randomUUID(),
-                eventDto.getUserId(),
-                eventDto.getEventType(),
-                Instant.now(),
-                eventDto.getMetadata()
-        );
+        UserEvent event = userEventMapper.toEntity(eventDto);
 
         CompletableFuture<SendResult<String, UserEvent>> future =
                 kafkaTemplate.send(topic, event.getUserId(), event);
