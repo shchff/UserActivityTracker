@@ -1,27 +1,20 @@
 package com.shchff.producer_service.mapper;
 
+import com.shchff.common.model.UserEvent;
 import com.shchff.producer_service.dto.UserEventDto;
-import com.shchff.producer_service.model.UserEvent;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.mapstruct.factory.Mappers;
 
 import java.time.Instant;
 import java.util.Map;
 import static org.junit.jupiter.api.Assertions.*;
 
-@ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = UserEventMapperImpl.class)
-public class UserEventMapperTest
-{
-    @Autowired
-    private UserEventMapper userEventMapper;
+public class UserEventMapperTest {
+
+    private final UserEventMapper userEventMapper = Mappers.getMapper(UserEventMapper.class);
 
     @Test
-    void shouldMapDtoToEntity()
-    {
+    void shouldMapDtoToEntity() {
         // Given
         UserEventDto dto = new UserEventDto("user123", "LOGIN", Map.of("ip", "127.0.0.1"));
 

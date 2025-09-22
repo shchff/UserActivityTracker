@@ -1,6 +1,6 @@
 package com.shchff.producer_service.config;
 
-import com.shchff.producer_service.model.UserEvent;
+import com.shchff.common.model.UserEvent;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.springframework.beans.factory.annotation.Value;

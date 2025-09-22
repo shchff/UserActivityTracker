@@ -1,4 +1,4 @@
-package com.shchff.producer_service.model;
+package com.shchff.common.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

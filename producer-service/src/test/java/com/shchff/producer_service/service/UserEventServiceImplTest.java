@@ -1,8 +1,8 @@
 package com.shchff.producer_service.service;
 
+import com.shchff.common.model.UserEvent;
 import com.shchff.producer_service.dto.UserEventDto;
 import com.shchff.producer_service.mapper.UserEventMapper;
-import com.shchff.producer_service.model.UserEvent;
 import org.apache.kafka.clients.producer.RecordMetadata;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

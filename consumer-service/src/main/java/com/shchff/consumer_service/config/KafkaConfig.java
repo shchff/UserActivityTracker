@@ -1,7 +1,6 @@
 package com.shchff.consumer_service.config;
 
-
-import com.shchff.consumer_service.model.UserEvent;
+import com.shchff.common.model.UserEvent;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

@@ -1,8 +1,8 @@
 package com.shchff.producer_service.service;
 
+import com.shchff.common.model.UserEvent;
 import com.shchff.producer_service.dto.UserEventDto;
 import com.shchff.producer_service.mapper.UserEventMapper;
-import com.shchff.producer_service.model.UserEvent;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

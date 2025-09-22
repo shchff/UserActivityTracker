@@ -1,6 +1,6 @@
 package com.shchff.consumer_service.service;
 
-import com.shchff.consumer_service.model.UserEvent;
+import com.shchff.common.model.UserEvent;
 import com.shchff.consumer_service.model.UserEventByType;
 import com.shchff.consumer_service.repository.UserEventByTypeRepository;
 import lombok.RequiredArgsConstructor;

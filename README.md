@@ -25,7 +25,15 @@ docker-compose up -d
 docker exec -it cassandra cqlsh -f /init/init.cql
 ```
 
-### 2. Запуск микросервисов
+### 2. Сборка проекта
+
+Так как проект мультимодульный, сборка выполняется из корневой директории:
+
+```bash
+mvn clean install
+```
+
+### 3. Запуск микросервисов
 
 В каждой из папок микросервисов (`producer-service`, `consumer-service`, `query-service`) запустить `spring-boot` приложение:
 

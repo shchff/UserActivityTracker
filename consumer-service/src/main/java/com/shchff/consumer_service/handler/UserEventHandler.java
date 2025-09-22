@@ -1,6 +1,6 @@
 package com.shchff.consumer_service.handler;
 
-
+import com.shchff.common.model.UserEvent;
 import com.shchff.consumer_service.model.*;
 import com.shchff.consumer_service.service.CassandraPersistenceService;
 import lombok.RequiredArgsConstructor;
