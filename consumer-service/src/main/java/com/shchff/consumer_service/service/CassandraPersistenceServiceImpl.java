@@ -4,16 +4,13 @@ import com.shchff.common.model.UserEvent;
 import com.shchff.consumer_service.model.UserEventByType;
 import com.shchff.consumer_service.repository.UserEventByTypeRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.cassandra.core.cql.CqlTemplate;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-@Slf4j
 public class CassandraPersistenceServiceImpl implements CassandraPersistenceService
 {
     private final UserEventByTypeRepository eventByTypeRepository;
@@ -23,14 +20,13 @@ public class CassandraPersistenceServiceImpl implements CassandraPersistenceServ
     private final String updateScript =
             "UPDATE user_total_activity SET event_count = event_count + 1 WHERE user_id = ?";
 
-    @Transactional
     @Override
     public void save(UserEvent event)
     {
         saveByType(event);
         saveActivity(event);
 
-        LOGGER.info("Event saved");
+        LOGGER.info("Saved event: userId={}, eventType={}", event.getUserId(), event.getEventType());
     }
 
     private void saveByType(UserEvent event)
