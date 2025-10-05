@@ -1,10 +1,18 @@
 package com.shchff.consumer_service.repository;
 
-import com.shchff.consumer_service.model.UserTotalActivity;
-import org.springframework.data.cassandra.repository.CassandraRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.cassandra.core.cql.CqlTemplate;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface UserTotalActivityRepository extends CassandraRepository<UserTotalActivity, String>
+@RequiredArgsConstructor
+public class UserTotalActivityRepository
 {
+    private final CqlTemplate cqlTemplate;
+
+    public void incrementCounter(String userId)
+    {
+        String INCREMENT_QUERY = "UPDATE user_total_activity SET event_count = event_count + 1 WHERE user_id = ?";
+        cqlTemplate.execute(INCREMENT_QUERY, userId);
+    }
 }
