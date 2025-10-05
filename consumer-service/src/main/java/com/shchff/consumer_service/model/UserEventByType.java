@@ -2,6 +2,7 @@ package com.shchff.consumer_service.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.cassandra.core.cql.Ordering;
 import org.springframework.data.cassandra.core.cql.PrimaryKeyType;
@@ -20,6 +21,7 @@ public class UserEventByType
 {
     @PrimaryKeyClass
     @AllArgsConstructor
+    @Getter
     public static class Key implements Serializable
     {
         @PrimaryKeyColumn(name = "event_type", type = PrimaryKeyType.PARTITIONED)
